@@ -1,5 +1,5 @@
 {
-  "name": "ember-generic-model-plugin-utils",
+  "name": "@lblod/ember-generic-model-plugin-utils",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
