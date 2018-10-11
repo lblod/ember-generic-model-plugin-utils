@@ -1,4 +1,12 @@
 /**
+ * Gathers util functions to serialize JSONAPI resources to RDFA.
+ * Notes
+ * -----
+ * You might wonder why not using Ember DS models instead?
+ *  - Since the domain you are talking about, might not fully be represented in Ember, this might provide issues with serialization
+ * Furthermore: the metaModel passed in functions, are EmberObjects. This makes life a little easier.
+ *
+/**
  * Helper function to create a Label for a resource.
  * (Takes into account some formating constrained defined in the metaModel)
  *
