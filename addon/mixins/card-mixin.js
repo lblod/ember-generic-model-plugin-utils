@@ -6,7 +6,6 @@ export default Mixin.create({
   store: service(),
 
   init() {
-    kaka
     this._super(...arguments);
     this.set('errors', []);
     this.set('message', '');
