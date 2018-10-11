@@ -1,20 +1,26 @@
-ember-generic-model-plugin-utils
+@lbod/ember-generic-model-plugin-utils
 ==============================================================================
 
-[Short description of the addon.]
+Utils and helpers are gathered here, which assists ember-rdfa-editor-plugins
+to work with a meta-model
 
 Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install ember-generic-model-plugin-utils
+ember install @blod/ember-generic-model-plugin-utils
 ```
 
 
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+See short description.
+Inlude reference into `dependencies` of package.json in addon.
+Utils can e.g be imported in your addon like:
+```
+import { findPropertiesWithRange } from '@lblod/ember-generic-model-plugin-utils/utils/meta-model-utils';
+```
 
 
 Contributing
