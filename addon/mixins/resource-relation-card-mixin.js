@@ -10,21 +10,22 @@ import {
 
 export default Mixin.create(CardMixin, {
   ajax: service(),
-  async refer(relationMeta, JSONAPIResource, displayLabel, hintOwner){
+  async refer(relationMeta, JSONAPIResource, displayLabel, hintOwner, extraInfo = []){
     let mappedLocation = this.get('hintsRegistry').updateLocationToCurrentIndex(this.get('hrId'), this.get('location'));
     this.get('hintsRegistry').removeHintsAtLocation(this.get('location'), this.get('hrId'), hintOwner);
     this.get('editor').replaceTextWithHTML(...mappedLocation,
                                            relationPropertyToRdfaReference(relationMeta,
                                                                            await relationMeta.get('range'),
                                                                            JSONAPIResource,
-                                                                           displayLabel));
+                                                                           displayLabel),
+                                           extraInfo);
   },
 
-  async extend(relationMeta, JSONAPIResource, hintOwner){
+  async extend(relationMeta, JSONAPIResource, hintOwner, extraInfo = []){
     let classMetaData = await this.rdfsClassForJsonApiType(JSONAPIResource.data.type);
     let rdfa = await extendedRdfa(query => { return this.ajax.request(query); }, JSONAPIResource, classMetaData, relationMeta.rdfaType);
     let mappedLocation = this.get('hintsRegistry').updateLocationToCurrentIndex(this.get('hrId'), this.get('location'));
-    this.get('hintsRegistry').removeHintsAtLocation(this.get('location'), this.get('hrId'), 'editor-plugins/generic-model-plugin');
-    this.get('editor').replaceTextWithHTML(...mappedLocation, rdfa);
+    this.get('hintsRegistry').removeHintsAtLocation(this.get('location'), this.get('hrId'), hintOwner);
+    this.get('editor').replaceTextWithHTML(...mappedLocation, rdfa, extraInfo);
   }
 });
