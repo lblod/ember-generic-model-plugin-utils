@@ -82,14 +82,13 @@ const parseJSONAPIResults = function parseJSONAPIResults(results){
  *
  * @private
  */
-const attributePropertyToRdfa = function attributePropertyToRdfa(attributeMeta, resource){
-  resource = parseJSONAPIResults(resource);
-  let datatypeIfProvided = attributeMeta.get('range.rdfaType') ? `datatype=${attributeMeta.get('range.rdfaType')}`:'';
-  let resourceData = resource ? resource.attributes[attributeMeta.label] : '&nbsp;';
+const attributePropertyToRdfa = function attributePropertyToRdfa(attributeMeta, value = '&nbsp;', content = '' ){
+  let datatypeIfProvided = attributeMeta.get('range.rdfaType') ? `datatype=${attributeMeta.get('range.rdfaType')}` : '';
+  let contentIfProvided = content ? `content=${content}` : '';
   return `<div>
             ${attributeMeta.get('label')}:
-            <div property=${attributeMeta.get('rdfaType')} ${datatypeIfProvided}>
-              ${resourceData}
+            <div property=${attributeMeta.get('rdfaType')} ${datatypeIfProvided} ${contentIfProvided}>
+              ${value}
             </div>
           </div> &nbsp;`;
 };
@@ -217,7 +216,7 @@ const extendedRdfa = async function extendedRdfa(callRelation, resourceData, cla
   //serialize attributes
   let rdfaProps = attributesMeta
         .filter(attrMeta => resource.attributes[attrMeta.label])
-        .map(attrMeta => { return attributePropertyToRdfa(attrMeta, resource); })
+        .map(attrMeta => { return attributePropertyToRdfa(attrMeta, resource.attributes[attrMeta.label]);})
         .join('');
 
   //serialize relations
