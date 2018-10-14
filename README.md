@@ -8,7 +8,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install @blod/ember-generic-model-plugin-utils
+ember install @lblod/ember-generic-model-plugin-utils
 ```
 
 
