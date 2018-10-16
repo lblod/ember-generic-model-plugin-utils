@@ -8,24 +8,23 @@ import {
   relationPropertyToRdfaReference
 } from '../utils/json-api-to-rdfa';
 
+/**
+ * mixin contains helpers and service to help serialize to RDFA
+ */
 export default Mixin.create(CardMixin, {
   ajax: service(),
-  async refer(relationMeta, JSONAPIResource, displayLabel, hintOwner, extraInfo = []){
-    let mappedLocation = this.get('hintsRegistry').updateLocationToCurrentIndex(this.get('hrId'), this.get('location'));
-    this.get('hintsRegistry').removeHintsAtLocation(this.get('location'), this.get('hrId'), hintOwner);
-    this.get('editor').replaceTextWithHTML(...mappedLocation,
-                                           relationPropertyToRdfaReference(relationMeta,
-                                                                           await relationMeta.get('range'),
-                                                                           JSONAPIResource,
-                                                                           displayLabel),
-                                           extraInfo);
+
+  async getReferRdfa(relationMeta, JSONAPIResource, displayLabel){
+    return relationPropertyToRdfaReference(relationMeta,
+                                           await relationMeta.get('range'),
+                                           JSONAPIResource,
+                                           displayLabel);
   },
 
-  async extend(relationMeta, JSONAPIResource, hintOwner, extraInfo = []){
+  async getExtendedRdfa(relationMeta, JSONAPIResource,){
     let classMetaData = await this.rdfsClassForJsonApiType(JSONAPIResource.data.type);
     let rdfa = await extendedRdfa(query => { return this.ajax.request(query); }, JSONAPIResource, classMetaData, relationMeta.rdfaType);
-    let mappedLocation = this.get('hintsRegistry').updateLocationToCurrentIndex(this.get('hrId'), this.get('location'));
-    this.get('hintsRegistry').removeHintsAtLocation(this.get('location'), this.get('hrId'), hintOwner);
-    this.get('editor').replaceTextWithHTML(...mappedLocation, rdfa, extraInfo);
+    return rdfa;
   }
+
 });
