@@ -86,7 +86,6 @@ const attributePropertyToRdfa = function attributePropertyToRdfa(attributeMeta, 
   let datatypeIfProvided = attributeMeta.get('range.rdfaType') ? `datatype=${attributeMeta.get('range.rdfaType')}` : '';
   let contentIfProvided = content ? `content=${content}` : '';
   return `<div>
-            ${attributeMeta.get('label')}:
             <div property=${attributeMeta.get('rdfaType')} ${datatypeIfProvided} ${contentIfProvided}>
               ${value}
             </div>
