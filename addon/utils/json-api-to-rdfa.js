@@ -85,11 +85,11 @@ const parseJSONAPIResults = function parseJSONAPIResults(results){
 const attributePropertyToRdfa = function attributePropertyToRdfa(attributeMeta, value = '&nbsp;', content = '' ){
   let datatypeIfProvided = attributeMeta.get('range.rdfaType') ? `datatype=${attributeMeta.get('range.rdfaType')}` : '';
   let contentIfProvided = content ? `content=${content}` : '';
-  return `<div>
-            <div property=${attributeMeta.get('rdfaType')} ${datatypeIfProvided} ${contentIfProvided}>
+  return `<span>
+            <span property=${attributeMeta.get('rdfaType')} ${datatypeIfProvided} ${contentIfProvided}>
               ${value}
-            </div>
-          </div> &nbsp;`;
+            </span>
+          </span> &nbsp;`;
 };
 
 /**
@@ -107,11 +107,11 @@ const attributePropertyToRdfa = function attributePropertyToRdfa(attributeMeta, 
 const relationPropertyToRdfaReference = function relationPropertyToRdfaReference(propertyMeta, relationMeta, relationResource, relationResourceDisplayLabel){
   relationResource = parseJSONAPIResults(relationResource);
   let labelData = relationResourceDisplayLabel ? relationResourceDisplayLabel : '&nbsp;';
-  return `<div property=${propertyMeta.get('rdfaType')}
+  return `<span property=${propertyMeta.get('rdfaType')}
                typeOf=${relationMeta.get('rdfaType')}
                resource=${relationResource.attributes.uri}>
             ${labelData}
-          </div> &nbsp;`;
+          </span> &nbsp;`;
 };
 
 
@@ -126,12 +126,12 @@ const relationPropertyToRdfaReference = function relationPropertyToRdfaReference
  * @private
  */
 const relationPropertyResourcesToRdfa = function relationPropertyResourcesToRdfa(propertyMeta, rdfaRelationResources){
-  return `<div>
+  return `<span>
             ${propertyMeta.get('label')}
-            <div>
+            <span>
               ${rdfaRelationResources.join(" ")}
-            </div>
-          </div>`;
+            </span>
+          </span>`;
 };
 
 
@@ -152,16 +152,16 @@ const resourceToRdfa = function resourceToRdfa(classMeta, resource, rdfaProps, r
   resource = parseJSONAPIResults(resource);
 
   if(propertyRef){
-    return `<div property=${propertyRef} typeOf="${classMeta.rdfaType}" resource=${resource.attributes['uri']}>
+    return `<span property=${propertyRef} typeOf="${classMeta.rdfaType}" resource=${resource.attributes['uri']}>
               ${rdfaProps || '&nbsp;'}
               ${rdfaRels || '&nbsp;'}
-            </div> &nbsp;`;
+            </span> &nbsp;`;
   }
 
-  return `<div typeOf="${classMeta.rdfaType}" resource=${resource.attributes['uri']}>
+  return `<span typeOf="${classMeta.rdfaType}" resource=${resource.attributes['uri']}>
             ${rdfaProps || '&nbsp;'}
             ${rdfaRels || '&nbsp;'}
-          </div> &nbsp;`;
+          </span> &nbsp;`;
 };
 
 /**
