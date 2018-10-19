@@ -1,4 +1,4 @@
-@lbod/ember-generic-model-plugin-utils
+@lbod/ember-rdfa-editor-generic-model-plugin-utils
 ==============================================================================
 
 Utils and helpers are gathered here, which assists ember-rdfa-editor-plugins
@@ -8,7 +8,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install @lblod/ember-generic-model-plugin-utils
+ember install @lblod/ember-rdfa-editor-generic-model-plugin-utils
 ```
 
 
@@ -19,7 +19,7 @@ See short description.
 Inlude reference into `dependencies` of package.json in addon.
 Utils can e.g be imported in your addon like:
 ```
-import { findPropertiesWithRange } from '@lblod/ember-generic-model-plugin-utils/utils/meta-model-utils';
+import { findPropertiesWithRange } from '@lblod/ember-rdfa-editor-generic-model-plugin-utils/utils/meta-model-utils';
 ```
 
 
@@ -29,7 +29,7 @@ Contributing
 ### Installation
 
 * `git clone <repository-url>`
-* `cd ember-generic-model-plugin-utils`
+* `cd ember-rdfa-editor-generic-model-plugin-utils`
 * `npm install`
 
 ### Linting

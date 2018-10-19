@@ -1,1 +1,1 @@
-export { default } from '@lblod/ember-generic-model-plugin-utils/models/rdfs-class';
+export { default } from '@lblod/ember-rdfa-editor-generic-model-plugin-utils/models/rdfs-class';
