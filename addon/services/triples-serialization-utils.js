@@ -93,11 +93,11 @@ export default Service.extend({
     resource.set('uri', metaDataType.baseUri.replace(/\/+$/, "") + '/' +  uuid());
     resource._meta.set('class', metaDataType);
     let metaProps = await this.metaModelQuery.getPropertiesFromType(type);
-    metaProps.forEach(p => {
+    await Promise.all(metaProps.map(async p => {
       let propLabel = camelCaseProperties ? this.toCamelCase(p.label) : p.label;
       resource._meta.set(propLabel, p);
-      resource.set(propLabel, null);
-    });
+      resource.set(propLabel, await this.constructDataFromProperty(p, resource.uri, [], camelCaseProperties));
+    }));
     return resource;
   },
 
