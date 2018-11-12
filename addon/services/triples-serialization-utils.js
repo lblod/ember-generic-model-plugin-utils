@@ -66,7 +66,7 @@ export default Service.extend({
     await Promise.all(metaProps.map(async p => {
       let propLabel = camelCaseProperties ? this.toCamelCase(p.label) : p.label;
       resource._meta.set(propLabel, p);
-      resource.set(propLabel, await this.constructDataFromProperty(p, subjectUri, triples));
+      resource.set(propLabel, await this.constructDataFromProperty(p, subjectUri, triples, camelCaseProperties));
     }));
 
     return resource;
