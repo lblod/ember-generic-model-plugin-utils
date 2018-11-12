@@ -126,13 +126,12 @@ export default Service.extend({
                         .filter(t => t.predicate == metaProperty.rdfaType && t.subject == subjectUri) || [])
                         .map( t => t.object) ; //we assume these are URI's!!!
 
-    //TODO: some weird stuff where context scanner generates double subject uri's
     relationUris  = A(Array.from(new Set(relationUris)));
 
     let resources = await Promise.all(relationUris.map(async uri => await this.constructResource(uri,
                                                                                           triples,
                                                                                           await metaProperty.get('range.rdfaType'),
-                                                                                            camelCaseProperties)));
+                                                                                          camelCaseProperties)));
     return A(resources);
   },
 
