@@ -24,6 +24,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+    "uuid": "^3.3.2",
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-cli-htmlbars-inline-precompile": "^1.0.3"
