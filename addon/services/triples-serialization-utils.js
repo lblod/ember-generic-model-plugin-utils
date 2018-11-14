@@ -25,7 +25,7 @@ export default Service.extend({
    * @param {Array} [{subject, predicate, object}]
    * @param {Boolean} OPTIONAL: get your properties camelCased
    *
-   * @return {Array} [{_meta: metaModel, prop_1, ..., prop_n}]
+   * @return {Array} [{_meta_generic_model: metaModel, prop_1, ..., prop_n}]
    *
    * @public
    */
@@ -45,12 +45,12 @@ export default Service.extend({
    * @param {String} OPTIONAL typeUri
    * @param {Boolean} OPTIONAl: get your properties camelCased
    *
-   * @return {Object} {_meta: metaModel, prop_1, ..., prop_n}]
+   * @return {Object} {_meta_generic_model: metaModel, prop_1, ..., prop_n}]
    *
    * @public
    */
   async constructResource(subjectUri, triples, type = null, camelCaseProperties = false){
-    let resource = EmberObject.create({ _meta: EmberObject.create() });
+    let resource = EmberObject.create({ _meta_generic_model: EmberObject.create() });
     if(!type)
       type = (triples.find(t => t.predicate == 'a' && t.subject == subjectUri) || {}).object;
 
@@ -61,11 +61,11 @@ export default Service.extend({
     //TODO: what if nothing found
     let metaDataType = await this.metaModelQuery.getMetaModelForType(type);
     resource.set('uri', subjectUri);
-    resource._meta.set('class', metaDataType);
+    resource._meta_generic_model.set('class', metaDataType);
     let metaProps = await this.metaModelQuery.getPropertiesFromType(type);
     await Promise.all(metaProps.map(async p => {
       let propLabel = camelCaseProperties ? this.toCamelCase(p.label) : p.label;
-      resource._meta.set(propLabel, p);
+      resource._meta_generic_model.set(propLabel, p);
       resource.set(propLabel, await this.constructDataFromProperty(p, subjectUri, triples, camelCaseProperties));
     }));
 
@@ -78,12 +78,12 @@ export default Service.extend({
    * @param {String} typeUri
    * @param {Boolean} OPTIONAl: get your properties camelCased
    *
-   * @return {Object} {_meta: metaModel, prop_1, ..., prop_n}
+   * @return {Object} {_meta_generic_model: metaModel, prop_1, ..., prop_n}
    *
    * @public
    */
   async createEmptyResource(type, camelCaseProperties = false){
-    let resource = EmberObject.create({ _meta: EmberObject.create() });
+    let resource = EmberObject.create({ _meta_generic_model: EmberObject.create() });
     let metaDataType = await this.metaModelQuery.getMetaModelForType(type);
     if(!metaDataType){
       warn(`No type found for ${type}`, {id: 'triples-serialization-utils.createEmptyResource'});
@@ -91,11 +91,11 @@ export default Service.extend({
     }
 
     resource.set('uri', metaDataType.baseUri.replace(/\/+$/, "") + '/' +  uuid());
-    resource._meta.set('class', metaDataType);
+    resource._meta_generic_model.set('class', metaDataType);
     let metaProps = await this.metaModelQuery.getPropertiesFromType(type);
     await Promise.all(metaProps.map(async p => {
       let propLabel = camelCaseProperties ? this.toCamelCase(p.label) : p.label;
-      resource._meta.set(propLabel, p);
+      resource._meta_generic_model.set(propLabel, p);
       resource.set(propLabel, await this.constructDataFromProperty(p, resource.uri, [], camelCaseProperties));
     }));
     return resource;
@@ -110,7 +110,7 @@ export default Service.extend({
    * @param {Array} [{subject, predicate, object}]
    * @param {Boolean} OPTIONAL: get your properties camelCased
    *
-   * @return {Object|str} [{_meta: metaModel, prop_1, ..., prop_n}] or "value from primitive property"
+   * @return {Object|str} [{_meta_generic_model: metaModel, prop_1, ..., prop_n}] or "value from primitive property"
    *
    * @private
    */
