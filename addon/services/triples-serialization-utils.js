@@ -14,8 +14,9 @@ import { inject as service } from '@ember/service';
  * - this might be considered as a preliminary version, so lots of edge cases and evolution might occur.
  * - relations will always be returned as EmberArrays (basically, metaModel does noet speak about hasMany/hasOne)
  */
+export default class TripleSerializationUtilsService extends Service {
 export default Service.extend({
-  metaModelQuery: service(),
+  @service metaModelQuery;
 
   /**
    * Given a type uri, construct all resources in collection of triples
@@ -33,7 +34,7 @@ export default Service.extend({
     let subjectUris = triples.filter(t => t.predicate == 'a' && t.object == type).map(t => t.subject);
     subjectUris = A(Array.from(new Set(subjectUris)));
     return await Promise.all(subjectUris.map(async uri => await this.constructResource(uri, triples, type, camelCaseProperties)));
-  },
+  }
 
   /**
    * Given a subjectUri, try to construct a resource from array of triples.
@@ -70,7 +71,7 @@ export default Service.extend({
     }));
 
     return resource;
-  },
+  }
 
   /**
    * Creates an empty resource for specific
@@ -99,7 +100,7 @@ export default Service.extend({
       resource.set(propLabel, await this.constructDataFromProperty(p, resource.uri, [], camelCaseProperties));
     }));
     return resource;
-  },
+  }
 
   /**
    * Given a metaProperty and subjectUri, this function will try to fetch the data associated with it.
@@ -133,7 +134,7 @@ export default Service.extend({
                                                                                           await metaProperty.get('range.rdfaType'),
                                                                                           camelCaseProperties)));
     return A(resources);
-  },
+  }
 
   toCamelCase(property){
     let tokens = property.split('-');
@@ -143,4 +144,4 @@ export default Service.extend({
     });
     return newString;
   }
-});
+};
