@@ -15,7 +15,6 @@ import { inject as service } from '@ember/service';
  * - relations will always be returned as EmberArrays (basically, metaModel does noet speak about hasMany/hasOne)
  */
 export default class TripleSerializationUtilsService extends Service {
-export default Service.extend({
   @service metaModelQuery;
 
   /**
